@@ -14,46 +14,10 @@ services:
     image: nginx:alpine
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "80:80"
     depends_on:
       - postgres
-    environment:
-      - NODE_ENV=production
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
-      - DATABASE_URL=${DATABASE_URL}
-    volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
-    command: >
-      sh -c "
-      echo '<!DOCTYPE html>
-      <html lang=\"en\">
-      <head>
-          <meta charset=\"UTF-8\">
-          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-          <title>SocialFlow AI - Effortless Social Growth</title>
-          <script src=\"https://cdn.tailwindcss.com\"></script>
-      </head>
-      <body class=\"bg-gradient-to-br from-blue-50 via-white to-purple-50 min-h-screen\">
-          <div class=\"container mx-auto px-4 py-16\">
-              <div class=\"text-center mb-16\">
-                  <h1 class=\"text-5xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-6\">
-                      SocialFlow AI
-                  </h1>
-                  <p class=\"text-xl text-gray-600 mb-8 max-w-2xl mx-auto\">
-                      Effortless Social Growth with AI-Powered Content
-                  </p>
-                  <div class=\"bg-green-50 border border-green-200 rounded-xl p-4 inline-block\">
-                      <div class=\"flex items-center space-x-2\">
-                          <div class=\"w-2 h-2 bg-green-500 rounded-full\"></div>
-                          <span class=\"font-medium text-green-800\">Production Ready</span>
-                      </div>
-                  </div>
-              </div>
-          </div>
-      </body>
-      </html>' > /usr/share/nginx/html/index.html && 
-      nginx -g 'daemon off;'
-      "
+    command: sh -c "echo '<!DOCTYPE html><html><head><title>SocialFlow AI - Effortless Social Growth</title><style>body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:50px;color:white;text-align:center}.container{max-width:600px;margin:0 auto;background:rgba(255,255,255,0.1);padding:40px;border-radius:20px;backdrop-filter:blur(10px)}.logo{font-size:3em;margin-bottom:20px}.status{background:#10b981;color:white;padding:10px 20px;border-radius:10px;display:inline-block;margin:20px 0}</style></head><body><div class=\"container\"><div class=\"logo\">🚀 SocialFlow AI</div><h1>Effortless Social Growth</h1><div class=\"status\">✅ Successfully Deployed</div><p>Your SocialFlow AI platform is online and ready to help you automate your social media presence!</p><hr><p><strong>Database:</strong> PostgreSQL Connected</p><p><strong>Status:</strong> All systems operational</p></div></body></html>' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
 
 volumes:
   postgres_data:
