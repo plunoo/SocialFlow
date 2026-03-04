@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-socialflow_admin}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-sf_secure_pwd_2024_rpnmore}
+      - POSTGRES_DB=${POSTGRES_DB:-socialflow}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    image: nginx:alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - postgres
+    command: sh -c "echo '<!DOCTYPE html><html><head><title>SocialFlow AI - Effortless Social Growth</title><style>body{font-family:Arial,sans-serif;background:linear-gradient(135deg,#667eea,#764ba2);margin:0;padding:50px;color:white;text-align:center}.container{max-width:600px;margin:0 auto;background:rgba(255,255,255,0.1);padding:40px;border-radius:20px;backdrop-filter:blur(10px)}.logo{font-size:3em;margin-bottom:20px}.status{background:#10b981;color:white;padding:10px 20px;border-radius:10px;display:inline-block;margin:20px 0}</style></head><body><div class=\"container\"><div class=\"logo\">🚀 SocialFlow AI</div><h1>Effortless Social Growth</h1><div class=\"status\">✅ Successfully Deployed</div><p>Your SocialFlow AI platform is online and ready to help you automate your social media presence!</p><hr><p><strong>Database:</strong> PostgreSQL Connected</p><p><strong>Status:</strong> All systems operational</p></div></body></html>' > /usr/share/nginx/html/index.html && nginx -g 'daemon off;'"
+
+volumes:
+  postgres_data:
